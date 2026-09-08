@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Healthcare Access</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef7fb;
+            color: #172b4d;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #087bb5;
+        }
+
+        .profile {
+            background: #e8f5fb;
+            padding: 10px 18px;
+            border-radius: 25px;
+        }
+
+        /* MAIN */
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 20px 60px;
+        }
+
+        /* ADVERTISEMENT */
+
+        .advertisement {
+            height: 180px;
+            border-radius: 25px;
+            background: linear-gradient(110deg, #087bb5, #35b8d8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 45px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(8,123,181,0.25);
+        }
+
+        .ad-text {
+            z-index: 2;
+        }
+
+        .ad-text small {
+            opacity: 0.8;
+        }
+
+        .ad-text h1 {
+            margin: 8px 0;
+            font-size: 30px;
+        }
+
+        .ad-text p {
+            margin: 0;
+        }
+
+        .ad-circle {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            position: absolute;
+            right: 80px;
+            top: -30px;
+        }
+
+        .ad-box {
+            border: 2px dashed rgba(255,255,255,0.7);
+            padding: 15px 25px;
+            border-radius: 12px;
+            z-index: 2;
+        }
+
+        /* WELCOME */
+
+        .welcome {
+            margin: 35px 0 25px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #718096;
+        }
+
+        /* SERVICE CARDS */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .service {
+            background: white;
+            min-height: 210px;
+            padding: 28px;
+            border-radius: 22px;
+            box-shadow: 0 7px 25px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .service h2 {
+            margin: 0 0 10px;
+        }
+
+        .service p {
+            color: #718096;
+            line-height: 1.5;
+        }
+
+        .arrow {
+            position: absolute;
+            right: 25px;
+            bottom: 22px;
+            font-size: 25px;
+            color: #087bb5;
+        }
+
+        /* AMBULANCE ANIMATION */
+
+        .ambulance-road {
+            height: 65px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .ambulance {
+            position: absolute;
+            font-size: 42px;
+            bottom: 5px;
+            left: -70px;
+            animation: ambulanceMove 6s linear infinite;
+        }
+
+        @keyframes ambulanceMove {
+            0% {
+                left: -80px;
+            }
+
+            100% {
+                left: 110%;
+            }
+        }
+
+        /* HOSPITAL ANIMATION */
+
+        .hospital-animation {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 45px;
+            animation: hospitalFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes hospitalFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* EMERGENCY */
+
+        .emergency {
+            border: 2px solid #ff6262;
+        }
+
+        .emergency h2 {
+            color: #e53e3e;
+        }
+
+        .emergency .arrow {
+            color: #e53e3e;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .advertisement {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .advertisement {
+                padding: 25px;
+            }
+
+            .ad-text h1 {
+                font-size: 23px;
+            }
+
+            .ad-box {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🏥 HealthAccess
+    </div>
+
+    <div class="profile">
+        👤 <span id="userName">User</span>
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- ADVERTISEMENT AREA -->
+
+    <div class="advertisement">
+
+        <div class="ad-text">
+
+            <small>ADVERTISEMENT</small>
+
+            <h1>Your Health. Your Priority.</h1>
+
+            <p>Trusted healthcare services near you.</p>
+
+        </div>
+
+        <div class="ad-box">
+            Your Advertisement Here
+        </div>
+
+        <div class="ad-circle"></div>
+
+    </div>
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>Healthcare Services</h2>
+
+        <p>
+            Find healthcare facilities and services around you.
+        </p>
+
+    </div>
+
+
+    <!-- SERVICE CARDS -->
+
+    <div class="grid">
+
+
+        <!-- HOSPITAL -->
+
+        <div class="service" onclick="window.location.href='pharmacy.html'">
+
+            <div class="hospital-animation">
+                🏥
+            </div>
+
+            <div class="icon">
+                🏥
+            </div>
+
+            <h2>Hospitals Nearby</h2>
+
+            <p>
+                Find nearby hospitals, doctors and medical facilities.
+            </p>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </div>
+
+
+        <!-- PHARMACY -->
+
+        <div class="service" onclick="showMessage('Pharmacies')">
+
+            <div class="icon">
+                💊
+            </div>
+
+            <h2>Pharmacies</h2>
+
+            <p>
+                Find pharmacies and medicine services near you.
+            </p>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </div>
+
+
+        <!-- WORKSHOPS -->
+
+        <div class="service" onclick="showMessage('Health Workshops')">
+
+            <div class="icon">
+                🧘
+            </div>
+
+            <h2>Health Workshops</h2>
+
+            <p>
+                Discover yoga, wellness and health awareness programs.
+            </p>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </div>
+
+
+        <!-- FITNESS -->
+
+        <div class="service" onclick="showMessage('Fitness')">
+
+            <div class="icon">
+                🏋️
+            </div>
+
+            <h2>Gyms & Fitness</h2>
+
+            <p>
+                Discover gyms, fitness centres and wellness programs.
+            </p>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </div>
+
+
+        <!-- EMERGENCY -->
+
+        <div class="service emergency" onclick="emergency()">
+
+            <div class="icon">
+                🚨
+            </div>
+
+            <h2>Emergency</h2>
+
+            <p>
+                Request emergency ambulance assistance.
+            </p>
+
+            <div class="ambulance-road">
+
+                <div class="ambulance">
+                    🚑
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MY HEALTH -->
+
+        <div class="service" onclick="showMessage('My Health')">
+
+            <div class="icon">
+                ❤️
+            </div>
+
+            <h2>My Health</h2>
+
+            <p>
+                View your personal health information and records.
+            </p>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const name = localStorage.getItem("userName");
+
+    if (name) {
+        document.getElementById("userName").textContent = name;
+    }
+
+
+    function showMessage(service) {
+
+        alert(service + " section will open here.");
+
+    }
+
+
+    function emergency() {
+
+        alert("🚑 Emergency ambulance service selected.");
+
+    }
+
+</script>
+<section style="padding: 30px; max-width: 900px; margin: auto;">
+
+    <h2>Patient Management</h2>
+
+    <form id="patientForm">
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Patient Name"
+            required
+        >
+
+        <input
+            type="number"
+            id="age"
+            placeholder="Age"
+            required
+        >
+
+        <select id="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <input
+            type="text"
+            id="phone"
+            placeholder="Phone Number"
+        >
+
+        <input
+            type="text"
+            id="problem"
+            placeholder="Health Problem"
+        >
+
+        <button type="submit">Add Patient</button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <h3>Patients</h3>
+
+    <table border="1" cellpadding="10" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Problem</th>
+            </tr>
+        </thead>
+
+        <tbody id="patientList"></tbody>
+    </table>
+
+</section>
+
+<script>
+
+const patientForm = document.getElementById("patientForm");
+const patientList = document.getElementById("patientList");
+const message = document.getElementById("message");
+
+
+// Add patient
+patientForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const patient = {
+        name: document.getElementById("name").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        phone: document.getElementById("phone").value,
+        problem: document.getElementById("problem").value
+    };
+
+    const response = await fetch("/api/patients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(patient)
+    });
+
+    const data = await response.json();
+
+    message.textContent = data.message || data.error;
+
+    if (response.ok) {
+        patientForm.reset();
+        loadPatients();
+    }
+
+});
+
+
+// Load patients
+async function loadPatients() {
+
+    const response = await fetch("/api/patients");
+
+    const patients = await response.json();
+
+    patientList.innerHTML = "";
+
+    patients.forEach(patient => {
+
+        patientList.innerHTML += `
+            <tr>
+                <td>${patient.patient_id}</td>
+                <td>${patient.name}</td>
+                <td>${patient.age}</td>
+                <td>${patient.gender}</td>
+                <td>${patient.phone}</td>
+                <td>${patient.problem}</td>
+            </tr>
+        `;
+
+    });
+
+}
+
+loadPatients();
+
+</script>
+<section style="padding: 30px; max-width: 900px; margin: auto;">
+
+    <h2>Doctor Management</h2>
+
+    <form id="doctorForm">
+
+        <input
+            type="text"
+            id="doctorName"
+            placeholder="Doctor Name"
+            required
+        >
+
+        <input
+            type="text"
+            id="specialization"
+            placeholder="Specialization"
+            required
+        >
+
+        <input
+            type="text"
+            id="doctorPhone"
+            placeholder="Phone Number"
+        >
+
+        <input
+            type="text"
+            id="availability"
+            placeholder="Availability (e.g. 9 AM - 2 PM)"
+        >
+
+        <button type="submit">Add Doctor</button>
+
+    </form>
+
+    <p id="doctorMessage"></p>
+
+    <h3>Doctors</h3>
+
+    <table border="1" cellpadding="10" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Phone</th>
+                <th>Availability</th>
+            </tr>
+        </thead>
+
+        <tbody id="doctorList"></tbody>
+    </table>
+
+</section>
+<section style="padding: 30px; max-width: 900px; margin: auto;">
+    <h2>Appointment Management</h2>
+
+    <form id="appointmentForm">
+
+        <label>Patient ID:</label>
+        <input type="number" id="appointmentPatientId" required>
+
+        <label>Doctor ID:</label>
+        <input type="number" id="appointmentDoctorId" required>
+
+        <label>Appointment Date:</label>
+        <input type="date" id="appointmentDate" required>
+
+        <label>Appointment Time:</label>
+        <input type="time" id="appointmentTime" required>
+
+        <button type="submit">Book Appointment</button>
+    </form>
+
+    <h3>Appointment List</h3>
+
+    <table border="1" cellpadding="10" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Specialization</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody id="appointmentList"></tbody>
+    </table>
+</section>
+<section style="padding: 30px; max-width: 900px; margin: auto;">
+    <h2>Billing Management</h2>
+
+    <form id="billingForm">
+
+        <label>Patient ID:</label>
+        <input type="number" id="billingPatientId" required>
+
+        <label>Medicine Cost:</label>
+        <input type="number" id="medicineCost" step="0.01" value="0" required>
+
+        <label>Consultation Fee:</label>
+        <input type="number" id="consultationFee" step="0.01" value="0" required>
+
+        <label>Other Charges:</label>
+        <input type="number" id="otherCharges" step="0.01" value="0" required>
+
+        <label>Bill Date:</label>
+        <input type="date" id="billDate" required>
+
+        <button type="submit">Generate Bill</button>
+    </form>
+
+    <h3>Bill List</h3>
+
+    <table border="1" cellpadding="10" width="100%">
+        <thead>
+            <tr>
+                <th>Bill ID</th>
+                <th>Patient</th>
+                <th>Medicine Cost</th>
+                <th>Consultation</th>
+                <th>Other Charges</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody id="billingList"></tbody>
+    </table>
+</section>
+
+<script>
+
+const doctorForm = document.getElementById("doctorForm");
+const doctorList = document.getElementById("doctorList");
+const doctorMessage = document.getElementById("doctorMessage");
+
+doctorForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const doctor = {
+        name: document.getElementById("doctorName").value,
+        specialization: document.getElementById("specialization").value,
+        phone: document.getElementById("doctorPhone").value,
+        availability: document.getElementById("availability").value
+    };
+
+    const response = await fetch("/api/doctors", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(doctor)
+    });
+
+    const data = await response.json();
+
+    doctorMessage.textContent = data.message || data.error;
+
+    if (response.ok) {
+        doctorForm.reset();
+        loadDoctors();
+    }
+
+});
+
+async function loadDoctors() {
+
+    const response = await fetch("/api/doctors");
+    const doctors = await response.json();
+
+    doctorList.innerHTML = "";
+
+    doctors.forEach(doctor => {
+
+        doctorList.innerHTML += `
+            <tr>
+                <td>${doctor.doctor_id}</td>
+                <td>${doctor.name}</td>
+                <td>${doctor.specialization}</td>
+                <td>${doctor.phone}</td>
+                <td>${doctor.availability}</td>
+            </tr>
+        `;
+
+    });
+
+}
+
+loadDoctors();
+
+</script>
+</body>
+
+</html>
